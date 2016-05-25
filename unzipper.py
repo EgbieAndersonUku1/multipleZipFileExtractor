@@ -5,13 +5,13 @@
 #
 # Created By : Egbie Anderson Uku 
 # Name Of The Program : Unzipper.Py 
-# Created on the 01/02/2016 at 15:08:15 hrs
+# Created on the 20/05/2016 at 15:08:15 hrs
 # This is version : 1 
 #
 #
 # File description 
 #
-# Allows a directory that contains multiple zips fills to be unzipped
+# A command line script that contains unzip multiple zips files in a directory.
 #
 ################################################################################
 
