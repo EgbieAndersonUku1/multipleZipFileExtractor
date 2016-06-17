@@ -23,6 +23,7 @@ import os
 import optparse
 import zipfile
 import os
+import time
 
 class Unzip(object):
     '''Unzip(class) is class that can unzip multiple files  or a single file in a directory.
@@ -37,7 +38,22 @@ class Unzip(object):
                             self._directory, self._zip_file = path, None  # self._directory = path: extract multiple zip files from a directory
                     else:
                             self._directory, self._zip_file = None, path  # self._zip_file = path: unzip a single zip file.
-                    
+
+    def _log_file(self, dest, data):
+         '''_log_file(str, str) -> return(None)
+
+         dest     : Destination path for the log file, default current directory
+         data     : The data to be written to file
+         return : None
+
+         Stores the log entry for current data
+         '''
+         f  = open(dest, 'w')
+         f.write(data)
+         f.write('\n')
+         f.write('time of data entry : {}'.format(time.strftime('%c')))
+         f.close()
+        
     def _clean_up(self, z_file_list):
             '''_clean_up(list) -> return(None)
             Cleans the directory of all file .zip extenstions.
@@ -135,6 +151,10 @@ class Unzip(object):
                             z_files.append(path)                                                      # append zip files for clean up
             if z_files:
                     self._clean_up(z_files) # perform clean up
+                    log_file_dest = dest_dir if dest_dir else os.getcwd()
+                    data = 'Extracted a total of {} zip files '.format(len(z_files))
+                    self._log_file(dest, data)
+                       
             else:
                     print '[!] No zip files found.'
             
@@ -147,32 +167,31 @@ def main():
     parser.add_option('-n', '--directory_name', dest='new_directory', help='Enter the name for the new directory')
     (options, args) = parser.parse_args()
 
-    new_location  = False
-    new_directory = False
-    
-    if options.directory and os.path.isdir(options.directory):
-            if options.new_location and os.path.exists(options.new_location):
-                 new_location = True
-                 dir_path = options.new_location
-            else:
-                  exit('The path you entered does not exists')
-
-             zipper = Unzip(options.directory)
-            # If the user has entered the name for a new directory
-            if options.new_directory:
-                 new_directory = True
-                 folder_path = os.path.join(dir_path, options.new_directory)
-
-          
-            if new_location and new_directory:
-                zipper.extract(folder_path)
-            elif new_location and not new_directory:
-                  zipper.extract(new_location)
-
-        # Write the one for the files here
-        # unfinished -> including file
-            
-                 
+##    new_location  = False
+##    new_directory = False
+##    
+##    if options.directory and os.path.isdir(options.directory):
+##            if options.new_location and os.path.exists(options.new_location):
+##                 new_location = True
+##                 dir_path = options.new_location
+##            else:
+##                  exit('The path you entered does not exists')
+##
+##             zipper = Unzip(options.directory)
+##            # If the user has entered the name for a new directory
+##            if options.new_directory:
+##                 new_directory = True
+##                 folder_path = os.path.join(dir_path, options.new_directory)
+##
+##          
+##            if new_location and new_directory:
+##                zipper.extract(folder_path)
+##            elif new_location and not new_directory:
+##                  zipper.extract(new_location)
+##
+##        # Write the one for the files here
+##            
+##                 
                 
          
     
